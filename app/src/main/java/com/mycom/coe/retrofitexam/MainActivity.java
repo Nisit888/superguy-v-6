@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
     private ImageView imageView;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,14 +66,20 @@ public class MainActivity extends AppCompatActivity {
                 call.enqueue(new Callback<GitHubUsers>() {
                     @Override
                     public void onResponse(Call<GitHubUsers> call, Response<GitHubUsers> response) {
-                        if ( response.isSuccessful() ) {
+                        if (response.isSuccessful()) {
                             gitHubUser = response.body();
-                            Toast.makeText(getApplicationContext(), gitHubUser.toString() , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), gitHubUser.toString(), Toast.LENGTH_SHORT).show();
                             tvDisplay.setText(gitHubUser.toString());
-                        }
-                        else {
+
+                            Picasso.with(getApplicationContext())
+                                    .load(gitHubUser.getImage())
+                                    .resize(1024, 1000)
+                                    .centerCrop()
+                                    .into(imageView);
+
+                        } else {
                             try {
-                                Toast.makeText(getApplicationContext(), response.errorBody().string() , Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), response.errorBody().string(), Toast.LENGTH_SHORT).show();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -82,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<GitHubUsers> call, Throwable t) {             }
+                    public void onFailure(Call<GitHubUsers> call, Throwable t) {
+                    }
                 });
             }
         });

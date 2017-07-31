@@ -19,6 +19,17 @@ public class GitHubUsers {
     @SerializedName("blog")
     private String blog;
 
+    @SerializedName("avatar_url")
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     public String getLogin() {
         return login;
     }
